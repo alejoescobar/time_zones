@@ -17,4 +17,13 @@ class TimeZone < ActiveRecord::Base
   validates :gmt_hour_diff, presence: true, numericality: { only_integer: true}
   validates :gmt_minute_diff, presence: true, numericality: {
     only_integer: true, greater_than_or_equal_to: 0, less_than: 60 }
+
+  scope :by_name_or_city, ->(q) do
+    query_string = q.split.join('%')
+    where(%Q(
+      LOWER(UNACCENT(name)) LIKE LOWER(UNACCENT(:q)) OR
+      LOWER(UNACCENT(city)) LIKE LOWER(UNACCENT(:q))
+    ),q: "%#{query_string}%")
+  end
+
 end
