@@ -13,10 +13,10 @@
 
 FactoryGirl.define do
   factory :time_zone do
-    name "MyString"
-    city "MyString"
-    gmt_hour_diff -5
-    gmt_minute_diff 0
+    name { Faker::Address.city }
+    city { self.name }
+    gmt_hour_diff { rand(24)-12 }
+    gmt_minute_diff { [0,15,30][rand(3)] }
   end
 
 end
