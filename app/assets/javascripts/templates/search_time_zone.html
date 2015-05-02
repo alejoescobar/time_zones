@@ -2,12 +2,12 @@
   <div class="row">
     <div class="col-xs-12">
       <form class="form-inline">
-        <input ng-model="search_input" type="text" autofocus="true" class="form-control">
-        <button ng-click="search(search_input)" class="btn btn-info">Buscar</button>
+        <input ng-model="search_input" id="search-input" type="text" autofocus="true" class="form-control">
+        <button ng-click="search(search_input)" class="btn btn-info">Search</button>
       </form>
     </div>
     <div class="col-xs-12">
-      <ul class="list-group">
+      <ul class="list-group" id="time-zones">
         <li ng-repeat="time_zone in time_zones" class="list-group-item">
           {{ time_zone.name }} [{{ time_zone.gmt_diff }}]
         </li>
