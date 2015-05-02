@@ -8,8 +8,8 @@
     </div>
     <div class="col-xs-12">
       <ul class="list-group" id="time-zones">
-        <li ng-repeat="time_zone in time_zones" class="list-group-item">
-          {{ time_zone.name }} [{{ time_zone.gmt_diff }}]
+        <li ng-repeat="time_zone in time_zones" class="list-group-item time-zone-item">
+          {{ time_zone.name }} - {{ time_zone.city }} [{{ time_zone.gmt_diff }}]
         </li>
       </ul>
     </div>
