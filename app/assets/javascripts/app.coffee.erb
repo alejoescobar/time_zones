@@ -8,12 +8,7 @@ app.config([ "$routeProvider",
   ($routeProvider)->
     $routeProvider
       .when("/",
-        templateUrl: "<%= asset_path 'templates/index.html' %>"
-        controller: "RecipesController"
+        templateUrl: "<%= asset_path 'templates/search_time_zone.html' %>"
+        controller: "SearchTimeZoneCtrl"
       )
-])
-
-controllers = angular.module("tzControllers",[])
-controllers.controller("RecipesController", [ "$scope",
-  ($scope)->
 ])

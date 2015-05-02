@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <form class="form-inline">
+        <input ng-model="search_input" type="text" autofocus="true" class="form-control">
+        <button ng-click="search(search_input)" class="btn btn-info">Buscar</button>
+      </form>
+    </div>
+    <div class="col-xs-12">
+      <ul class="list-group">
+        <li ng-repeat="time_zone in time_zones" class="list-group-item">
+          {{ time_zone.name }} [{{ time_zone.gmt_diff }}]
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
