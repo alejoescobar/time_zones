@@ -1,0 +1,19 @@
+app = angular.module("tzApp",[
+  "templates",
+  "ngRoute",
+  "tzControllers"
+])
+
+app.config([ "$routeProvider",
+  ($routeProvider)->
+    $routeProvider
+      .when("/",
+        templateUrl: "<%= asset_path 'templates/index.html' %>"
+        controller: "RecipesController"
+      )
+])
+
+controllers = angular.module("tzControllers",[])
+controllers.controller("RecipesController", [ "$scope",
+  ($scope)->
+])
