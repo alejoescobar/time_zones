@@ -40,6 +40,8 @@ group :test, :development do
   gem 'capybara'
   gem 'database_cleaner'
   gem 'selenium-webdriver'
+  gem 'faker'
+  gem 'shoulda'
 end
 group :production, :staging do
   gem 'rails_12factor'
