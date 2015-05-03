@@ -1,9 +1,7 @@
 require "rails_helper"
 
 RSpec.describe RegistrationsController, type: :controller do
-  let(:json_headers) do
-    { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
-  end
+  
   let(:sign_up_params) do
     { email: "pepe@mailinator.com", password: "password", password_confirmation: "password" }
   end

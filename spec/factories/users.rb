@@ -12,9 +12,14 @@
 
 FactoryGirl.define do
   factory :user do
-    email "MyString"
-password_digest "MyString"
-auth_token "MyString"
+    email { Faker::Internet.email }
+    password "password"
+    factory :user_signed_in do
+      auth_token { SecureRandom.urlsafe_base64 }
+    end
+    factory :user_not_signed_in do
+      auth_token nil
+    end
   end
 
 end
