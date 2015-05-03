@@ -15,7 +15,6 @@ RSpec.describe SessionsController, type: :controller do
       post :create, sign_in_params, json_headers
 
       expect(response).to have_http_status(:created)
-      body = JSON.parse(response.body)
       expect(body).to have_key("auth_token")
       expect(body).to_not have_key("password")
       expect(body).to_not have_key("password_digest")
@@ -27,7 +26,6 @@ RSpec.describe SessionsController, type: :controller do
       post :create, {email: user_signed_in.email,password:"password"}, json_headers
 
       expect(response).to have_http_status(:created)
-      body = JSON.parse(response.body)
       expect(body).to have_key("auth_token")
       expect(body["auth_token"]).to eq(curr_auth_token)
       expect(user_signed_in.reload.auth_token).to eq(curr_auth_token)
@@ -37,7 +35,6 @@ RSpec.describe SessionsController, type: :controller do
       post :create, sign_in_params.merge(password:"wrongpass"), json_headers
 
       expect(response).to have_http_status(:unauthorized)
-      body = JSON.parse(response.body)
       expect(body).to_not have_key("auth_token")
 
     end
@@ -61,6 +58,40 @@ RSpec.describe SessionsController, type: :controller do
 
       expect(user_not_signed_in.reload.auth_token).to eq(nil)
     end
+  end
+
+  describe "get session" do
+    context "user logged in" do
+      it "should respond with the user info" do
+        set_auth_headers(user_signed_in)
+        get :show,{},json_headers
+
+        expect(response).to have_http_status(:ok)
+
+      end
+    end
+
+    context "user not logged in" do
+      it "should respond with the user info" do
+        set_auth_headers(user_not_signed_in)
+        get :show,{},json_headers
+
+        expect(response).to have_http_status(:unauthorized)
+
+      end
+    end
+
+    context "incorrect credentials" do
+      it "should respond with the user info" do
+        request.headers["X-AUTH-EMAIL"] = user_signed_in.email
+        request.headers["X-AUTH-TOKEN"] = user_signed_in.auth_token+"X"
+        get :show,{},json_headers
+
+        expect(response).to have_http_status(:unauthorized)
+
+      end
+    end
+
   end
 
 end
