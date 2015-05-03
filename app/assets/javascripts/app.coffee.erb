@@ -3,6 +3,7 @@ app = angular.module("tzApp",[
   "ngRoute"
   "ngResource"
   "tzControllers"
+  "tzServices"
 ])
 
 app.config([ "$routeProvider",
@@ -12,4 +13,13 @@ app.config([ "$routeProvider",
         templateUrl: "<%= asset_path 'templates/search_time_zone.html' %>"
         controller: "SearchTimeZoneCtrl"
       )
+      .when("/sign_up",
+        templateUrl: "<%= asset_path 'templates/sign_up.html' %>"
+        controller: "SignUpCtrl"
+      )
+      .when("/sign_in",
+        templateUrl: "<%= asset_path 'templates/sign_in.html' %>"
+        controller: "SignInCtrl"
+      )
+      .otherwise("")
 ])

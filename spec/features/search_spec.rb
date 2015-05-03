@@ -13,7 +13,6 @@ RSpec.feature "Search time zones", type: :feature, js: true do
     scenario "All time zones" do
 
       visit "/"
-      time_zones_container = page.find("#time-zones")
       time_zones.each do |t|
         expect(time_zones_container).to have_content(t.name)
       end
