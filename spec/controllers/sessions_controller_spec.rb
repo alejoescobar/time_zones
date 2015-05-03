@@ -9,10 +9,12 @@ RSpec.describe SessionsController, type: :controller do
   let(:sign_in_params) do
     { email: user.email, password: "password" }
   end
-
+  before do
+    set_json_headers
+  end
   describe "Sign in" do
     it "should return the auth token of the user" do
-      post :create, sign_in_params, json_headers
+      post :create, sign_in_params
 
       expect(response).to have_http_status(:created)
       expect(body).to have_key("auth_token")
@@ -23,7 +25,7 @@ RSpec.describe SessionsController, type: :controller do
 
     it "should not change the auth token on sign in" do
       curr_auth_token = user_signed_in.auth_token
-      post :create, {email: user_signed_in.email,password:"password"}, json_headers
+      post :create, {email: user_signed_in.email,password:"password"}
 
       expect(response).to have_http_status(:created)
       expect(body).to have_key("auth_token")
@@ -32,7 +34,7 @@ RSpec.describe SessionsController, type: :controller do
     end
 
     it "should not allow sign in with invalid credentials" do
-      post :create, sign_in_params.merge(password:"wrongpass"), json_headers
+      post :create, sign_in_params.merge(password:"wrongpass")
 
       expect(response).to have_http_status(:unauthorized)
       expect(body).to_not have_key("auth_token")
@@ -44,7 +46,7 @@ RSpec.describe SessionsController, type: :controller do
   describe "Sign out" do
     it "should delete auth_token" do
       set_auth_headers(user_signed_in)
-      delete :destroy, {}, json_headers
+      delete :destroy
       expect(response).to have_http_status(:ok)
 
       expect(user_signed_in.reload.auth_token).to eq(nil)
@@ -53,7 +55,7 @@ RSpec.describe SessionsController, type: :controller do
 
     it "should respond unauthorized if user is not signed in" do
       set_auth_headers(user_not_signed_in)
-      delete :destroy, {}, json_headers
+      delete :destroy
       expect(response).to have_http_status(:unauthorized)
 
       expect(user_not_signed_in.reload.auth_token).to eq(nil)
@@ -64,7 +66,7 @@ RSpec.describe SessionsController, type: :controller do
     context "user logged in" do
       it "should respond with the user info" do
         set_auth_headers(user_signed_in)
-        get :show,{},json_headers
+        get :show
 
         expect(response).to have_http_status(:ok)
 
@@ -74,7 +76,7 @@ RSpec.describe SessionsController, type: :controller do
     context "user not logged in" do
       it "should respond with the user info" do
         set_auth_headers(user_not_signed_in)
-        get :show,{},json_headers
+        get :show
 
         expect(response).to have_http_status(:unauthorized)
 
@@ -85,7 +87,7 @@ RSpec.describe SessionsController, type: :controller do
       it "should respond with the user info" do
         request.headers["X-AUTH-EMAIL"] = user_signed_in.email
         request.headers["X-AUTH-TOKEN"] = user_signed_in.auth_token+"X"
-        get :show,{},json_headers
+        get :show
 
         expect(response).to have_http_status(:unauthorized)
 

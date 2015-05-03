@@ -7,6 +7,10 @@ module Api
     request.headers["X-AUTH-EMAIL"] = user.email
     request.headers["X-AUTH-TOKEN"] = user.auth_token
   end
+  def set_json_headers
+    request.headers['Content-Type'] = 'application/json'
+    request.headers['Accept'] = 'application/json' 
+  end
   def body
     JSON.parse(response.body)
   end
