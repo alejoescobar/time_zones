@@ -96,7 +96,7 @@ RSpec.feature "Search time zones", type: :feature, js: true do
 
     context "bookmarked url" do
       scenario "filter the time zones by name" do
-        visit "/#/?q=Col"
+        visit "/#/time_zones?q=Col"
 
         time_zones_container.assert_selector('.time-zone-item', count: 1)
         expect(time_zones_container).to have_content("Colombian time")

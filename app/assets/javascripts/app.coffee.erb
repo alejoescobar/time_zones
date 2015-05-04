@@ -9,7 +9,7 @@ app = angular.module("tzApp",[
 app.config([ "$routeProvider",
   ($routeProvider)->
     $routeProvider
-      .when("/",
+      .when("/time_zones",
         templateUrl: "<%= asset_path 'templates/search_time_zone.html' %>"
         controller: "SearchTimeZoneCtrl"
       )
@@ -21,5 +21,5 @@ app.config([ "$routeProvider",
         templateUrl: "<%= asset_path 'templates/sign_in.html' %>"
         controller: "SignInCtrl"
       )
-      .otherwise("")
+      .otherwise("/time_zones")
 ])
