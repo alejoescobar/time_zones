@@ -9,10 +9,14 @@ module Api
   end
   def set_json_headers
     request.headers['Content-Type'] = 'application/json'
-    request.headers['Accept'] = 'application/json' 
+    request.headers['Accept'] = 'application/json'
   end
   def body
     JSON.parse(response.body)
+  end
+
+  def current_fragment
+    URI.parse(current_url).fragment
   end
 end
 
