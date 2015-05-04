@@ -42,6 +42,12 @@ Auth = ($http,$q,$cookies)->
         @_set_auth_headers()
       @current_user
 
+    sign_out: ->
+      $http.delete("/user/sign_out")
+        .then((response)->
+          @current_user = $cookies.current_user = null
+        )
+
     _save_current_user: ->
       $cookies.current_user = JSON.stringify(@current_user)
 

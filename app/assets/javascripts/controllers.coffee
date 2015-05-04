@@ -1,10 +1,13 @@
 controllers = angular.module("tzControllers",[])
 
 # SearchTimeZone
-SearchTimeZoneCtrl = ($scope,$routeParams,$location,TimeZone)->
-
+SearchTimeZoneCtrl = ($scope,$routeParams,$location,TimeZone,Auth)->
+  $scope.current_user = Auth.current_user
   $scope.search = (q)->
     $location.path("/time_zones").search('q',q)
+  $scope.sign_out = ->
+    Auth.sign_out()
+      .then( -> $location.path("/sign_in") )
 
   if $routeParams.q
     q = $routeParams.q.toLowerCase()
@@ -15,7 +18,7 @@ SearchTimeZoneCtrl = ($scope,$routeParams,$location,TimeZone)->
   else
     $scope.time_zones = TimeZone.query()
 
-SearchTimeZoneCtrl.$inject = ["$scope","$routeParams","$location","TimeZone"]
+SearchTimeZoneCtrl.$inject = ["$scope","$routeParams","$location","TimeZone","Auth"]
 controllers.controller("SearchTimeZoneCtrl", SearchTimeZoneCtrl)
 
 # SignUp
