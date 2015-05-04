@@ -1,4 +1,6 @@
 class TimeZonesController < ApplicationController
+  before_action :authenticate_user!
+  
   def index
     time_zones = TimeZone.all
     if((q = params[:q]) && !q.blank?)

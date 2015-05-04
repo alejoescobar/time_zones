@@ -9,4 +9,12 @@ class ApplicationController < ActionController::Base
     return nil if email.blank? || auth_token.blank?
     User.where(email: email,auth_token: auth_token).take
   end
+
+  protected
+
+  def authenticate_user!
+    unless current_user
+      head :unauthorized
+    end
+  end
 end
