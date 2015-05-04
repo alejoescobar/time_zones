@@ -1,1 +1,27 @@
-<h1>Sign in</h1>
+<div class="container">
+  <div class="row col-xs-12 col-md-6 col-md-offset-3">
+    <h1>Sign in</h1>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-md-6 col-md-offset-3">
+      <div class="bg-danger errors">
+        <ul ng-show="errors" ng-repeat="(elem,elem_errors) in errors">
+          <li ng-repeat="e in elem_errors" >
+            {{ elem }} {{ e }}
+          </li>
+        </ul>
+      </div>
+      <form id="sign-in" ng-submit="sign_in(user)">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input ng-model="user.email" id="email" type="email" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input ng-model="user.password" id="password" type="password" id="password" class="form-control">
+        </div>
+        <button class="btn btn-success btn-block">Sign in</button>
+      </form>
+    </div>
+  </div>
+</div>

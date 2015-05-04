@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     if( user && user.authenticate(sign_in_params[:password]) )
       render json: user.reload, status: :created
     else
-      render json: { credentials: "Invalid email or password" }, status: :unauthorized
+      render json: { credentials: ["Invalid email or password"] }, status: :unauthorized
     end
   end
 
