@@ -18,6 +18,13 @@ module Api
   def current_fragment
     URI.parse(current_url).fragment
   end
+
+  def sign_in(user,password="password")
+    visit "/#/sign_in"
+    fill_in "email", with: user.email
+    fill_in "password", with: password
+    click_on "Sign in"
+  end
 end
 
 RSpec.configure do |c|

@@ -5,6 +5,12 @@ RSpec.feature "Search time zones", type: :feature, js: true do
   let(:time_zones) { TimeZone.all }
   let(:time_zones_container) { page.find("#time-zones")}
 
+  let(:existing_user) { create(:user,password: "password") }
+
+  before do
+    sign_in(existing_user)
+  end
+
   context "list without search filter" do
     before do
       create_list(:time_zone,10)
