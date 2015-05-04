@@ -24,7 +24,6 @@ SignUpCtrl = ($scope,$location,Auth)->
   $scope.sign_up = (user)->
     Auth.sign_up(user)
       .then (data)->
-        debugger
         $location.path("/sign_in")
       .catch (errors)->
         $scope.errors = errors
