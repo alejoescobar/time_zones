@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   root 'home#index'
 
-  resources :time_zones, only: [:index]
+  resources :time_zones, only: [:index,:create,:update,:destroy]
 
   # Auth module
   scope :user do

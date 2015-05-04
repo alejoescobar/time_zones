@@ -106,4 +106,27 @@ RSpec.describe TimeZonesController, type: :controller do
     end
   end
 
+  describe "create" do
+    let(:user) { create(:user_signed_in, password: "password") }
+    let(:other_user) { create(:user_signed_in, password: "password") }
+    let(:time_zone) { build(:time_zone) }
+
+    before do
+      set_auth_headers(user)
+    end
+
+    it "should create a time_zone" do
+      data = {
+        name: time_zone.name,
+        city: time_zone.city,
+        gmt_hour_diff: time_zone.gmt_hour_diff,
+        gmt_minute_diff: time_zone.gmt_minute_diff
+      }
+      post :create, data
+      expect(response).to have_http_status(:created)
+      expect(user.time_zones.where(name: time_zone.name).take).to_not eq(nil)
+    end
+
+  end
+
 end
