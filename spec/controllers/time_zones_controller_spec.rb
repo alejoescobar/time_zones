@@ -4,30 +4,31 @@ RSpec.describe TimeZonesController, type: :controller do
 
   describe "index" do
 
-    let(:time_zones) { TimeZone.all }
-
     context "user signed in" do
       let(:user) { create(:user_signed_in, password: "password") }
+      let(:other_user) { create(:user_signed_in, password: "password") }
       before do
         set_auth_headers(user)
       end
 
       context "list without search filter" do
         before do
-          create_list(:time_zone,10)
+          create_list(:time_zone,10, user: user)
+          create_list(:time_zone,10, user: other_user)
         end
-        it "returns the list of all time zones" do
+        it "returns the list time zones asociated to user" do
           get :index
           expect(response).to have_http_status(:success)
-          expect(body.length).to eq(time_zones.length)
+          expect(body.length).to eq(user.time_zones.count)
+          expect(body.map{|x| x["id"]}.sort).to eq(user.time_zones.pluck(:id).sort)
         end
       end
 
       context "Search by name or city" do
         before do
-          create(:time_zone,name: "Colombian time", city: "Bogotá")
-          create(:time_zone,name: "Medellín time", city: "Medellín")
-          create(:time_zone,name: "Western time", city: "San Francisco")
+          create(:time_zone,name: "Colombian time", city: "Bogotá",user: user)
+          create(:time_zone,name: "Medellín time", city: "Medellín",user: user)
+          create(:time_zone,name: "Western time", city: "San Francisco",user: user)
         end
 
         it "should filter the time zones by name" do

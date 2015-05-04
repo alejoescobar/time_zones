@@ -9,6 +9,7 @@
 #  gmt_minute_diff :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  user_id         :integer
 #
 
 FactoryGirl.define do
@@ -17,6 +18,7 @@ FactoryGirl.define do
     city { self.name }
     gmt_hour_diff { rand(24)-12 }
     gmt_minute_diff { [0,15,30][rand(3)] }
+    user
   end
 
 end

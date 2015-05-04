@@ -9,6 +9,7 @@
 #  gmt_minute_diff :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  user_id         :integer
 #
 
 require 'rails_helper'
@@ -17,6 +18,7 @@ RSpec.describe TimeZone, type: :model do
   context 'validations' do
     it { should validate_presence_of :name }
     it { should validate_presence_of :city }
+    it { should validate_presence_of :user }
 
     it { should validate_presence_of :gmt_hour_diff }
     it { should validate_numericality_of(:gmt_hour_diff).only_integer }

@@ -2,34 +2,34 @@ require 'rails_helper'
 
 RSpec.feature "Search time zones", type: :feature, js: true do
 
-  let(:time_zones) { TimeZone.all }
   let(:time_zones_container) { page.find("#time-zones")}
 
-  let(:existing_user) { create(:user,password: "password") }
+  let(:user) { create(:user,password: "password") }
 
   before do
-    sign_in(existing_user)
+    sign_in(user)
   end
 
   context "list without search filter" do
     before do
-      create_list(:time_zone,10)
+      create_list(:time_zone,10,user: user)
     end
 
-    scenario "All time zones" do
+    scenario "All time zones associated to user" do
 
       visit "/"
-      time_zones.each do |t|
+      user.time_zones.each do |t|
         expect(time_zones_container).to have_content(t.name)
       end
+      time_zones_container.assert_selector('.time-zone-item', count: user.time_zones.count)
 
    end
   end
   context "3 time zones" do
     before do
-      create(:time_zone,name: "Colombian time", city: "Bogotá")
-      create(:time_zone,name: "Medellín time", city: "Medellín")
-      create(:time_zone,name: "Western time", city: "San Francisco")
+      create(:time_zone,name: "Colombian time", city: "Bogotá",user: user)
+      create(:time_zone,name: "Medellín time", city: "Medellín",user: user)
+      create(:time_zone,name: "Western time", city: "San Francisco",user: user)
     end
     context "Search by name or city" do
       before do
