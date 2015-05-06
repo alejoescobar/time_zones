@@ -1,5 +1,6 @@
 class TimeZonesController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_time_zone, only: [:update,:destroy]
 
   # GET /time_zones
   def index
@@ -21,13 +22,19 @@ class TimeZonesController < ApplicationController
     end
   end
 
-  # UPDATE /time_zones/:id
+  # PATCH /time_zones/:id
   def update
-
+    if @time_zone.update(time_zone_params)
+      render json: @time_zone, status: :ok
+    else
+      render json: @time_zone.errors, status: :unprocessable_entity
+    end
   end
 
   # DELETE /time_zones/:id
   def destroy
+    @time_zone.destroy
+    head :no_content
   end
 
   protected
@@ -36,5 +43,9 @@ class TimeZonesController < ApplicationController
     params.permit(
       :name,:city,:gmt_hour_diff,:gmt_minute_diff
     )
+  end
+
+  def set_time_zone
+    @time_zone = TimeZone.find(params[:id])
   end
 end

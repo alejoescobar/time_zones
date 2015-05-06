@@ -106,25 +106,71 @@ RSpec.describe TimeZonesController, type: :controller do
     end
   end
 
-  describe "create" do
+  describe "create update and delete" do
     let(:user) { create(:user_signed_in, password: "password") }
     let(:other_user) { create(:user_signed_in, password: "password") }
     let(:time_zone) { build(:time_zone) }
-
-    before do
-      set_auth_headers(user)
-    end
-
-    it "should create a time_zone" do
-      data = {
+    let(:time_zone_data) do
+      {
         name: time_zone.name,
         city: time_zone.city,
         gmt_hour_diff: time_zone.gmt_hour_diff,
         gmt_minute_diff: time_zone.gmt_minute_diff
       }
-      post :create, data
-      expect(response).to have_http_status(:created)
-      expect(user.time_zones.where(name: time_zone.name).take).to_not eq(nil)
+    end
+    context "signed in user" do
+      before do
+        set_auth_headers(user)
+      end
+
+      it "should create a time_zone" do
+        post :create, time_zone_data
+        expect(response).to have_http_status(:created)
+        expect(user.time_zones.where(name: time_zone.name).take).to_not eq(nil)
+      end
+
+      it "should update a time_zone" do
+        time_zone.save
+
+        patch :update, {id: time_zone.id, name: "new name"}
+        expect(response).to have_http_status(:ok)
+        expect(time_zone.reload.name).to eq("new name")
+      end
+
+      it "should not update an invalid time_zone (name)" do
+        time_zone.save
+
+        patch :update, {id: time_zone.id, name: ""}
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(body).to have_key("name")
+        expect(time_zone.reload.name).to eq(time_zone.name)
+      end
+
+      it "should not update an invalid time_zone (gmt_hour_diff)" do
+        time_zone.save
+
+        patch :update, {id: time_zone.id, gmt_hour_diff: "XX"}
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(body).to have_key("gmt_hour_diff")
+        expect(time_zone.reload.gmt_hour_diff).to eq(time_zone.gmt_hour_diff)
+      end
+
+      it "should update a time_zone" do
+        time_zone.save
+
+        delete :destroy, {id: time_zone.id}
+        expect(response).to have_http_status(:no_content)
+        expect(TimeZone.find_by_id(time_zone.id)).to eq(nil)
+      end
+
+    end
+
+    context "not signed in user" do
+      it "should not create a time_zone and repond with 401" do
+        post :create, time_zone_data
+        expect(response).to have_http_status(:unauthorized)
+        expect(user.time_zones.where(name: time_zone.name).take).to eq(nil)
+      end
     end
 
   end
