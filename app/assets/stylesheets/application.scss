@@ -11,6 +11,11 @@
  * file per style scope.
  *
  */
- 
+
  @import "bootstrap-sass-official/assets/stylesheets/bootstrap-sprockets";
  @import "bootstrap-sass-official/assets/stylesheets/bootstrap";
+
+.btn-new-time-zone {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
