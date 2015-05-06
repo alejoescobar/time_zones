@@ -1,10 +1,10 @@
 controllers = angular.module("tzControllers",[])
 
 # SearchTimeZone
-SearchTimeZoneCtrl = ($scope,$routeParams,$location,$route,TimeZone)->
+SearchTimeZoneCtrl = ($scope,$routeParams,$location,$route,$interval,TimeZone)->
   addTimes = (time_zones)->
     _.map time_zones, (t)->
-      t.time = moment().utcOffset(t.utc_offset).format("hh:mm")
+      t.time = moment().utcOffset(t.utc_offset).format("hh:mm:ss")
       t
 
   $scope.search = (q)->
@@ -24,9 +24,15 @@ SearchTimeZoneCtrl = ($scope,$routeParams,$location,$route,TimeZone)->
       .then (results)->
         $scope.time_zones = addTimes(results)
 
+  updateTimeInterval = $interval ()->
+    $scope.time_zones = addTimes($scope.time_zones)
+  , 1000
+
+  $scope.$on "$destroy", ->
+    $interval.cancel(updateTimeInterval)
 
 
-SearchTimeZoneCtrl.$inject = ["$scope","$routeParams","$location","$route","TimeZone"]
+SearchTimeZoneCtrl.$inject = ["$scope","$routeParams","$location","$route","$interval","TimeZone"]
 controllers.controller("SearchTimeZoneCtrl", SearchTimeZoneCtrl)
 
 # SignUp
