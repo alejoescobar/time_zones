@@ -2,6 +2,10 @@ controllers = angular.module("tzControllers",[])
 
 # SearchTimeZone
 SearchTimeZoneCtrl = ($scope,$routeParams,$location,$route,TimeZone)->
+  addTimes = (time_zones)->
+    _.map time_zones, (t)->
+      t.time = moment().utcOffset(t.utc_offset).format("hh:mm")
+      t
 
   $scope.search = (q)->
     $location.path("/time_zones").search('q',q)
@@ -13,11 +17,14 @@ SearchTimeZoneCtrl = ($scope,$routeParams,$location,$route,TimeZone)->
   if $routeParams.q
     $scope.q = $routeParams.q.toLowerCase()
     TimeZone.query(q: $scope.q, (results)->
-      $scope.time_zones = results
+      $scope.time_zones = addTimes(results)
     )
-
   else
-    $scope.time_zones = TimeZone.query()
+    TimeZone.query().$promise
+      .then (results)->
+        $scope.time_zones = addTimes(results)
+
+
 
 SearchTimeZoneCtrl.$inject = ["$scope","$routeParams","$location","$route","TimeZone"]
 controllers.controller("SearchTimeZoneCtrl", SearchTimeZoneCtrl)

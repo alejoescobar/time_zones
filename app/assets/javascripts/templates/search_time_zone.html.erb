@@ -37,8 +37,8 @@
               <td>{{ time_zone.id }}</td>
               <td>{{ time_zone.name }}</td>
               <td>{{ time_zone.city }}</td>
-              <td>XX:XX</td>
-              <td>{{ time_zone.gmt_hour_diff }}:{{ time_zone.gmt_minute_diff }}</td>
+              <td>{{ time_zone.time }}</td>
+              <td>{{ time_zone.utc_offset }}</td>
               <td>
                 <div class="pull-right">
                   <a ng-href="#/time_zones/{{time_zone.id}}" class="btn btn-info">

@@ -31,4 +31,13 @@ class TimeZone < ActiveRecord::Base
     ),q: "%#{query_string}%")
   end
 
+  def as_json(opts)
+    opts[:methods] ||= :utc_offset
+    super
+  end
+
+  def utc_offset
+    "%+03d:%02d" % [self.gmt_hour_diff,self.gmt_minute_diff]
+  end
+
 end

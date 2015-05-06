@@ -18,5 +18,7 @@
 #= require angular-rails-templates
 #= require angular-resource/angular-resource
 #= require angular-cookies/angular-cookies
+#= require angular-moment/angular-moment
 #= require lodash/lodash
+#= require moment/moment
 #= require_tree .
