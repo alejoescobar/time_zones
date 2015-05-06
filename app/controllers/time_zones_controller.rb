@@ -1,6 +1,6 @@
 class TimeZonesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_time_zone, only: [:update,:destroy]
+  before_action :set_time_zone, only: [:update,:destroy,:show]
 
   # GET /time_zones
   def index
@@ -9,6 +9,11 @@ class TimeZonesController < ApplicationController
       time_zones = time_zones.by_name_or_city(q)
     end
     render json: time_zones
+  end
+
+  # GET /time_zones/:id
+  def show
+    render json: @time_zone, status: :ok
   end
 
   # POST /time_zones

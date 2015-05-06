@@ -69,6 +69,23 @@ NewTimeZoneCtrl.$inject = ["$scope","$location","TimeZone"]
 controllers.controller("NewTimeZoneCtrl", NewTimeZoneCtrl)
 
 
+# EditTimeZoneCtrl
+EditTimeZoneCtrl = ($scope,$location,$routeParams,TimeZone)->
+  $scope.action = "update"
+  $scope.time_zone = {}
+  TimeZone.get {id: $routeParams.id}, (time_zone)->
+    $scope.time_zone = new TimeZone(time_zone)
+
+  $scope.submit = (time_zone)->
+
+    TimeZone.update({id:$scope.time_zone.id},time_zone)
+      .$promise
+      .then( -> $location.path("/time_zones") )
+      .catch( (response)-> $scope.errors = response.data )
+
+
+EditTimeZoneCtrl.$inject = ["$scope","$location","$routeParams","TimeZone"]
+controllers.controller("EditTimeZoneCtrl", EditTimeZoneCtrl)
 
 
 

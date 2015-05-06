@@ -5,6 +5,7 @@
     "bootstrap-sass-official": "latest",
     "angular-route": "latest",
     "angular-resource": "latest",
-    "angular-cookies": "latest"
+    "angular-cookies": "latest",
+    "lodash": "latest"
   }
 }

@@ -2,7 +2,10 @@ services = angular.module("tzServices",[])
 
 # TimeZone
 TimeZone = ($resource)->
-  $resource('/time_zones/:recipeId', { recipeId: "@id", format: 'json' })
+  $resource('/time_zones/:id',
+    { id: "@id", format: 'json' },
+    { 'update': { method:'PATCH' } }
+  )
 
 TimeZone.$inject = ["$resource"]
 services.factory("TimeZone",TimeZone)

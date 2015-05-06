@@ -34,6 +34,14 @@ app.config [ "$routeProvider",
             Auth.get_current_user()
           ]
       )
+      .when("/time_zones/:id",
+        templateUrl: "<%= asset_path 'templates/time_zones_form.html' %>"
+        controller: "EditTimeZoneCtrl"
+        resolve:
+          auth: ["Auth", (Auth)->
+            Auth.get_current_user()
+          ]
+      )
       .otherwise("/time_zones")
 ]
 
