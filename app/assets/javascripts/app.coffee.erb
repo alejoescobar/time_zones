@@ -7,7 +7,16 @@ app = angular.module("tzApp",[
   "tzControllers"
   "tzServices"
 ])
-
+private_access = ["Auth", (Auth)->
+  Auth.get_current_user()
+]
+public_access = ["Auth","$q", (Auth,$q)->
+  deferred = $q.defer()
+  Auth.get_current_user()
+    .then( -> deferred.reject() )
+    .catch( -> deferred.resolve() )
+  deferred.promise
+]
 app.config [ "$routeProvider",
   ($routeProvider)->
     $routeProvider
@@ -15,39 +24,40 @@ app.config [ "$routeProvider",
         templateUrl: "<%= asset_path 'templates/search_time_zone.html' %>"
         controller: "SearchTimeZoneCtrl"
         resolve:
-          auth: ["Auth", (Auth)->
-            Auth.get_current_user()
-          ]
+          access: private_access
       )
       .when("/sign_up",
         templateUrl: "<%= asset_path 'templates/sign_up.html' %>"
         controller: "SignUpCtrl"
+        resolve:
+          access: public_access
       )
       .when("/sign_in",
         templateUrl: "<%= asset_path 'templates/sign_in.html' %>"
         controller: "SignInCtrl"
+        resolve:
+          access: public_access
       )
       .when("/time_zones/new",
         templateUrl: "<%= asset_path 'templates/time_zones_form.html' %>"
         controller: "NewTimeZoneCtrl"
         resolve:
-          auth: ["Auth", (Auth)->
-            Auth.get_current_user()
-          ]
+          access: private_access
       )
       .when("/time_zones/:id",
         templateUrl: "<%= asset_path 'templates/time_zones_form.html' %>"
         controller: "EditTimeZoneCtrl"
         resolve:
-          auth: ["Auth", (Auth)->
-            Auth.get_current_user()
-          ]
+          access: private_access
       )
       .otherwise("/time_zones")
 ]
 
-app.run ["$rootScope","$location", ($rootScope,$location)->
+app.run ["$rootScope","$location","Auth", ($rootScope,$location,Auth)->
   $rootScope.$on "$routeChangeError", (event)->
-    $location.path "/sign_in"
+    if Auth.current_user
+      $location.path "/time_zones"
+    else
+      $location.path "/sign_in"
 
 ]
