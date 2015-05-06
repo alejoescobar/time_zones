@@ -26,6 +26,14 @@ app.config [ "$routeProvider",
         templateUrl: "<%= asset_path 'templates/sign_in.html' %>"
         controller: "SignInCtrl"
       )
+      .when("/time_zones/new",
+        templateUrl: "<%= asset_path 'templates/time_zones_form.html' %>"
+        controller: "NewTimeZoneCtrl"
+        resolve:
+          auth: ["Auth", (Auth)->
+            Auth.get_current_user()
+          ]
+      )
       .otherwise("/time_zones")
 ]
 

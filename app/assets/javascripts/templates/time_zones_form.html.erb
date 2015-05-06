@@ -1,0 +1,59 @@
+<div ng-include="'<%= asset_path 'templates/_navigation.html' %>'"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1 ng-if="action == 'create'">New Time Zone</h1>
+      <h1 ng-if="action == 'update'">Editing - {{ time_zone.name }}</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="bg-danger errors">
+        <ul ng-show="errors" ng-repeat="(elem,elem_errors) in errors">
+          <li ng-repeat="e in elem_errors" >
+            {{ elem }} {{ e }}
+          </li>
+        </ul>
+      </div>
+      <form ng-submit="submit(time_zone)" class="form-horizontal">
+
+        <div class="form-group">
+          <label class="control-form col-xs-3" for="name">Name</label>
+          <div class="col-xs-9">
+            <input ng-model="time_zone.name" id="name" type="text" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-form col-xs-3" for="city">City</label>
+          <div class="col-xs-9">
+            <input ng-model="time_zone.city" id="city" type="text" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-form col-xs-3" for="gmt_hour_diff">GMT Hour difference</label>
+          <div class="col-xs-9">
+            <input ng-model="time_zone.gmt_hour_diff" id="gmt_hour_diff" type="number" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-form col-xs-3" for="gmt_minute_diff">GMT Minute difference</label>
+          <div class="col-xs-9">
+            <input ng-model="time_zone.gmt_minute_diff" id="gmt_minute_diff" type="number" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-4 col-xs-offset-8">
+            <button class="btn btn-success btn-block btn-md">
+              Save
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

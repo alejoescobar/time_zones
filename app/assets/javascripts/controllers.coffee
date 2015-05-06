@@ -1,13 +1,10 @@
 controllers = angular.module("tzControllers",[])
 
 # SearchTimeZone
-SearchTimeZoneCtrl = ($scope,$routeParams,$location,TimeZone,Auth)->
-  $scope.current_user = Auth.current_user
+SearchTimeZoneCtrl = ($scope,$routeParams,$location,TimeZone)->
+
   $scope.search = (q)->
     $location.path("/time_zones").search('q',q)
-  $scope.sign_out = ->
-    Auth.sign_out()
-      .then( -> $location.path("/sign_in") )
 
   if $routeParams.q
     q = $routeParams.q.toLowerCase()
@@ -18,7 +15,7 @@ SearchTimeZoneCtrl = ($scope,$routeParams,$location,TimeZone,Auth)->
   else
     $scope.time_zones = TimeZone.query()
 
-SearchTimeZoneCtrl.$inject = ["$scope","$routeParams","$location","TimeZone","Auth"]
+SearchTimeZoneCtrl.$inject = ["$scope","$routeParams","$location","TimeZone"]
 controllers.controller("SearchTimeZoneCtrl", SearchTimeZoneCtrl)
 
 # SignUp
@@ -45,3 +42,37 @@ SignInCtrl = ($scope,$location,Auth)->
 
 SignInCtrl.$inject = ["$scope","$location","Auth"]
 controllers.controller("SignInCtrl", SignInCtrl)
+
+# NavigationCtrl
+NavigationCtrl = ($scope,$location,Auth)->
+  $scope.current_user = Auth.current_user
+
+  $scope.sign_out = ->
+    Auth.sign_out()
+      .then( -> $location.path("/sign_in") )
+
+NavigationCtrl.$inject = ["$scope","$location","Auth"]
+controllers.controller("NavigationCtrl", NavigationCtrl)
+
+# NewTimeZoneCtrl
+NewTimeZoneCtrl = ($scope,$location,TimeZone)->
+  $scope.action = "create"
+  $scope.time_zone = {}
+  $scope.submit = (time_zone)->
+    time_zone = new TimeZone(time_zone)
+    time_zone.$save()
+      .then( -> $location.path("/time_zones") )
+      .catch( (response)-> $scope.errors = response.data )
+
+
+NewTimeZoneCtrl.$inject = ["$scope","$location","TimeZone"]
+controllers.controller("NewTimeZoneCtrl", NewTimeZoneCtrl)
+
+
+
+
+
+
+
+
+##

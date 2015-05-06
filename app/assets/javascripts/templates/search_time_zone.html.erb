@@ -1,0 +1,23 @@
+<div ng-include="'<%= asset_path 'templates/_navigation.html' %>'"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-md-6">
+      <h1>Time Zones</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-md-6">
+      <form class="form-inline">
+        <input ng-model="search_input" id="search-input" type="text" autofocus="true" class="form-control">
+        <button ng-click="search(search_input)" class="btn btn-info">Search</button>
+      </form>
+    </div>
+    <div class="col-xs-12">
+      <ul class="list-group" id="time-zones">
+        <li ng-repeat="time_zone in time_zones" class="list-group-item time-zone-item">
+          {{ time_zone.name }} - {{ time_zone.city }} [{{ time_zone.gmt_diff }}]
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
