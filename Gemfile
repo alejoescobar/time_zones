@@ -47,6 +47,7 @@ group :production, :staging do
   gem 'rails_12factor'
   gem 'rails_stdout_logging'
   gem 'rails_serve_static_assets'
+  gem 'puma'
 end
 
 gem 'sass', '3.2.19'
@@ -55,3 +56,4 @@ gem 'foreman'
 gem 'angular-rails-templates'
 gem 'bcrypt'
 gem 'angular_rails_csrf'
+gem 'rack-timeout'
