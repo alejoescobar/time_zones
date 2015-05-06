@@ -7,8 +7,8 @@ SearchTimeZoneCtrl = ($scope,$routeParams,$location,TimeZone)->
     $location.path("/time_zones").search('q',q)
 
   if $routeParams.q
-    q = $routeParams.q.toLowerCase()
-    TimeZone.query(q: $routeParams.q, (results)->
+    $scope.q = $routeParams.q.toLowerCase()
+    TimeZone.query(q: $scope.q, (results)->
       $scope.time_zones = results
     )
 
