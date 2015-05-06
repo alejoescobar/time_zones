@@ -52,5 +52,7 @@ class TimeZonesController < ApplicationController
 
   def set_time_zone
     @time_zone = TimeZone.find(params[:id])
+    head :forbidden if @time_zone.user != current_user
+    @time_zone
   end
 end
