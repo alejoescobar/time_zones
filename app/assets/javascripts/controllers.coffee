@@ -4,7 +4,7 @@ controllers = angular.module("tzControllers",[])
 SearchTimeZoneCtrl = ($scope,$routeParams,$location,$route,$interval,TimeZone)->
   addTimes = (time_zones)->
     _.map time_zones, (t)->
-      t.time = moment().utcOffset(t.utc_offset).format("hh:mm:ss")
+      t.time = moment().utcOffset(t.utc_offset).format("hh:mm:ss A")
       t
 
   $scope.search = (q)->
