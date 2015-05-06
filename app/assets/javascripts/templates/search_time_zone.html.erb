@@ -33,9 +33,14 @@
               <td>XX:XX</td>
               <td>{{ time_zone.gmt_hour_diff }}:{{ time_zone.gmt_minute_diff }}</td>
               <td>
-                <a ng-href="#/time_zones/{{time_zone.id}}" class="btn btn-info pull-right">
-                  <span class="glyphicon glyphicon-pencil"></span>
-                </a>
+                <div class="pull-right">
+                  <a ng-href="#/time_zones/{{time_zone.id}}" class="btn btn-info">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                  </a>
+                  <button ng-click="delete_time_zone(time_zone.id)" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                </div>
               </td>
             </tr>
           </tbody>
